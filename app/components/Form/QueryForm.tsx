@@ -16,7 +16,6 @@ import {
 
 const QueryForm = () => {
   const [state, formAction, isPending] = useActionState(handleQueryFormAction, null);
-
   return (
     <div className="grid w-full md:grid-cols-1 gap-4 lg:grid-cols-2">
       <Card className="w-full max-w-md bg-surface text-foreground border border-border p-10">
