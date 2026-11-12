@@ -1,1 +1,1 @@
-export const BASE_URL = 'http://localhost:8000'
+export const timeout = 60; //in seconds

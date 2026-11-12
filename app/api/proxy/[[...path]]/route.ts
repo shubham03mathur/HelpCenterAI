@@ -1,4 +1,4 @@
-import { BASE_URL } from "@/app/config/apiConfig";
+import { timeout } from "@/app/config/apiConfig";
 import { NextRequest } from "next/server";
 
 type RouteParams = {
@@ -6,7 +6,7 @@ type RouteParams = {
     path?: string[];
   }>;
 };
-
+export const maxDuration = timeout;
 async function proxy(request: NextRequest, context: RouteParams) {
   try {
     const resolvedParams = await context.params;
@@ -15,8 +15,8 @@ async function proxy(request: NextRequest, context: RouteParams) {
 
     const search = new URL(request.url)?.searchParams;
     const apiRoute = search
-      ? `${BASE_URL}/${path}${search}`
-      : `${BASE_URL}/${path}`;
+      ? `${process.env.BACKEND_BASE_URL}/${path}${search}`
+      : `${process.env.BACKEND_BASE_URL}/${path}`;
 
     //set headers
     const headers = new Headers();
@@ -49,7 +49,7 @@ async function proxy(request: NextRequest, context: RouteParams) {
   } catch (error) {
     console.error("Proxy error:", error);
     return new Response(
-      JSON.stringify({ error: "Proxy failed to forward request" }),
+      JSON.stringify({ error: "Failed to process your request. Please try again." }),
       {
         status: 500,
         headers: { "Content-Type": "application/json" },
