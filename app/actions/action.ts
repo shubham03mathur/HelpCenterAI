@@ -1,5 +1,6 @@
 "use server";
 import { randomUUID } from "node:crypto";
+import { timeout } from "../config/apiConfig";
 
 export const handleQueryFormAction = async (
   _prevState: any,
@@ -20,9 +21,12 @@ export const handleQueryFormAction = async (
       name: "Shubham",
     };
 
+    const signal = AbortSignal.timeout(timeout * 1000);
+
     const response = await fetch(
-      `http://localhost:3000/api/proxy/conversations/${conversation_id}/messages`,
+      `${process.env.BASE_URL}/api/proxy/conversations/${conversation_id}/messages`,
       {
+        signal: signal,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,15 +36,22 @@ export const handleQueryFormAction = async (
     );
 
     if (!response.ok) {
-      return { success: false, error: "Failed to initiate chat. Please try again." };
+      return {
+        success: false,
+        error: "Failed to initiate chat. Please try again.",
+      };
     }
 
     const data = await response.json();
     return { success: true, data };
-  } catch (error) {
+  } catch (error: unknown) {
     console.log(error);
+    if (error instanceof DOMException && error.name === "TimeoutError") {
+      return {
+        success: false,
+        error: "Gateway timeout. Please try again.",
+      };
+    }
     return { success: false, error: "Internal server error." };
   }
 };
-
-
