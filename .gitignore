@@ -53,3 +53,4 @@ __pycache__/
 
 # Python virtual environments
 .venv/
+*.db
