@@ -1,4 +1,4 @@
-from typing import NotRequired
+from typing import NotRequired, Dict, Any
 from langchain.messages import HumanMessage, AIMessage, SystemMessage
 from typing_extensions import Literal, TypedDict
 
@@ -10,12 +10,22 @@ class EmailClassification(TypedDict):
     topic: str
     summary: str
 
+class AgentRunSchema(TypedDict):
+    conversation_id: str
+    run_id: str
+    thread_id: str
+    message: str
+
 class ConversationState(BaseModel):
     conversation_id: str
     topic: str
     email: str
     name: str
     concern: str
+
+class ReviewState(BaseModel):
+    conversation_id: str
+    payload: Dict[str, Any]
 
 class AgentState(TypedDict):
     sender_email: str

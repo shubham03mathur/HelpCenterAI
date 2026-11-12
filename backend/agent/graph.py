@@ -18,5 +18,5 @@ workflow.add_edge(START, "read_email")
 workflow.add_edge("read_email", "email_classification")
 workflow.add_edge('send_reply', END)
 
-memory = MemorySaver()
-workflow_app = workflow.compile(checkpointer=memory)
+# memory = MemorySaver()
+# workflow_app = workflow.compile(checkpointer=memory)

@@ -43,3 +43,13 @@ next-env.d.ts
 # python
 __pycache__/
 *.py[cod]
+
+# local databases and SQLite sidecar files
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+
+# Python virtual environments
+.venv/
